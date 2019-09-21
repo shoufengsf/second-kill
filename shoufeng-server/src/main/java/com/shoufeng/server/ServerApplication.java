@@ -1,9 +1,11 @@
 package com.shoufeng.server;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@MapperScan(value = "com.shoufeng.model.mapper")
 public class ServerApplication {
 
     public static void main(String[] args) {
