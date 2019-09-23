@@ -1,7 +1,7 @@
 package com.shoufeng.server.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoufeng.model.entity.ItemKillSuccess;
+import com.shoufeng.model.entity.ItemKillSuccessEntity;
 import com.shoufeng.model.mapper.ItemKillSuccessMapper;
 import com.shoufeng.server.service.IItemKillSuccessService;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-09-21
  */
 @Service
-public class ItemKillSuccessServiceImpl extends ServiceImpl<ItemKillSuccessMapper, ItemKillSuccess> implements IItemKillSuccessService {
+public class ItemKillSuccessServiceImpl extends ServiceImpl<ItemKillSuccessMapper, ItemKillSuccessEntity> implements IItemKillSuccessService {
 
 }

@@ -1,7 +1,7 @@
 package com.shoufeng.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 用户信息表
+ * 秒杀成功订单表
  * </p>
  *
  * @author shoufeng
@@ -20,37 +20,37 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class User implements Serializable {
+@TableName("item_kill_success")
+public class ItemKillSuccessEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    /**
+     * 秒杀成功生成的订单编号
+     */
+    //默认使用雪花算法ID
+    @TableId
+    private Long code;
 
     /**
-     * 用户名
+     * 商品id
      */
-    private String userName;
+    private Long itemId;
 
     /**
-     * 密码
+     * 秒杀id
      */
-    private String password;
+    private Long killId;
 
     /**
-     * 手机号
+     * 用户id
      */
-    private String phone;
+    private Long userId;
 
     /**
-     * 邮箱
+     * 秒杀结果: -1无效  0成功(未付款)  1已付款  2已取消
      */
-    private String email;
-
-    /**
-     * 是否有效(1=是；0=否)
-     */
-    private Integer isActive;
+    private Integer status;
 
     /**
      * 创建时间

@@ -1,7 +1,7 @@
 package com.shoufeng.model.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shoufeng.model.entity.User;
+import com.shoufeng.model.entity.UserEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.shoufeng.model.entity.User;
  * @author shoufeng
  * @since 2019-09-21
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<UserEntity> {
 
 }

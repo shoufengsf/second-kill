@@ -1,7 +1,7 @@
 package com.shoufeng.server;
 
 import com.alibaba.fastjson.JSON;
-import com.shoufeng.model.entity.ItemKillSuccess;
+import com.shoufeng.model.entity.ItemKillSuccessEntity;
 import com.shoufeng.server.service.IItemKillSuccessService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class IItemKillSuccessServiceTest extends ServerApplicationTests {
 
     @Test
     public void addTest() {
-        ItemKillSuccess itemKillSuccess = new ItemKillSuccess();
+        ItemKillSuccessEntity itemKillSuccess = new ItemKillSuccessEntity();
         itemKillSuccess.setItemId(1L);
         itemKillSuccess.setKillId(2L);
         itemKillSuccess.setUserId(3L);

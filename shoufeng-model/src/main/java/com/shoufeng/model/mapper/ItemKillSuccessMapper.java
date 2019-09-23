@@ -1,7 +1,7 @@
 package com.shoufeng.model.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shoufeng.model.entity.ItemKillSuccess;
+import com.shoufeng.model.entity.ItemKillSuccessEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.shoufeng.model.entity.ItemKillSuccess;
  * @author shoufeng
  * @since 2019-09-21
  */
-public interface ItemKillSuccessMapper extends BaseMapper<ItemKillSuccess> {
+public interface ItemKillSuccessMapper extends BaseMapper<ItemKillSuccessEntity> {
 
 }

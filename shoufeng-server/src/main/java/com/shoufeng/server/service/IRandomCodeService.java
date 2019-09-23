@@ -1,7 +1,7 @@
 package com.shoufeng.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shoufeng.model.entity.RandomCode;
+import com.shoufeng.model.entity.RandomCodeEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.shoufeng.model.entity.RandomCode;
  * @author shoufeng
  * @since 2019-09-21
  */
-public interface IRandomCodeService extends IService<RandomCode> {
+public interface IRandomCodeService extends IService<RandomCodeEntity> {
 
 }

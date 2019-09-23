@@ -1,7 +1,7 @@
 package com.shoufeng.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shoufeng.model.entity.User;
+import com.shoufeng.model.entity.UserEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.shoufeng.model.entity.User;
  * @author shoufeng
  * @since 2019-09-21
  */
-public interface IUserService extends IService<User> {
+public interface IUserService extends IService<UserEntity> {
 
 }

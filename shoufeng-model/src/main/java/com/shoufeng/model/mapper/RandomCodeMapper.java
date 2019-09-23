@@ -1,7 +1,7 @@
 package com.shoufeng.model.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shoufeng.model.entity.RandomCode;
+import com.shoufeng.model.entity.RandomCodeEntity;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.shoufeng.model.entity.RandomCode;
  * @author shoufeng
  * @since 2019-09-21
  */
-public interface RandomCodeMapper extends BaseMapper<RandomCode> {
+public interface RandomCodeMapper extends BaseMapper<RandomCodeEntity> {
 
 }

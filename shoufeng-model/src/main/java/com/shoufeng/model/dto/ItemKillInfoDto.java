@@ -1,6 +1,6 @@
 package com.shoufeng.model.dto;
 
-import com.shoufeng.model.entity.ItemKill;
+import com.shoufeng.model.entity.ItemKillEntity;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * @author shoufeng
  */
 @Data
-public class ItemKillInfo extends ItemKill implements Serializable {
+public class ItemKillInfoDto extends ItemKillEntity implements Serializable {
 
     /**
      * 商品名

@@ -1,8 +1,8 @@
 package com.shoufeng.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shoufeng.model.dto.ItemKillInfo;
-import com.shoufeng.model.entity.ItemKill;
+import com.shoufeng.model.dto.ItemKillInfoDto;
+import com.shoufeng.model.entity.ItemKillEntity;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import java.util.List;
  * @author shoufeng
  * @since 2019-09-21
  */
-public interface IItemKillService extends IService<ItemKill> {
-    List<ItemKillInfo> findActiveItemKillList();
-    ItemKillInfo findItemKillById(Long id);
+public interface IItemKillService extends IService<ItemKillEntity> {
+    List<ItemKillInfoDto> findActiveItemKillList();
+    ItemKillInfoDto findItemKillById(Long id);
     Boolean killItem(Long userId, Long itemId);
 }

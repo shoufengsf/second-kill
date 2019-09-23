@@ -1,7 +1,7 @@
 package com.shoufeng.server.controller;
 
 
-import com.shoufeng.model.dto.ItemKillInfo;
+import com.shoufeng.model.dto.ItemKillInfoDto;
 import com.shoufeng.server.common.pojo.Result;
 import com.shoufeng.server.service.IItemKillService;
 import org.apache.ibatis.annotations.Param;
@@ -35,7 +35,7 @@ public class ItemKillController {
      */
     @GetMapping("/list")
     public Result listKillGoods() {
-        List<ItemKillInfo> itemKillInfoList = iItemKillService.findActiveItemKillList();
+        List<ItemKillInfoDto> itemKillInfoList = iItemKillService.findActiveItemKillList();
         return Result.ok(null, itemKillInfoList);
     }
 

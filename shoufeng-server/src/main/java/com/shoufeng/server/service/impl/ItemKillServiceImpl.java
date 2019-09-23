@@ -1,9 +1,9 @@
 package com.shoufeng.server.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoufeng.model.dto.ItemKillInfo;
-import com.shoufeng.model.entity.ItemKill;
-import com.shoufeng.model.entity.ItemKillSuccess;
+import com.shoufeng.model.dto.ItemKillInfoDto;
+import com.shoufeng.model.entity.ItemKillEntity;
+import com.shoufeng.model.entity.ItemKillSuccessEntity;
 import com.shoufeng.model.mapper.ItemKillMapper;
 import com.shoufeng.model.mapper.ItemKillSuccessMapper;
 import com.shoufeng.model.mapper.ItemMapper;
@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2019-09-21
  */
 @Service
-public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> implements IItemKillService {
+public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEntity> implements IItemKillService {
 
     @Autowired
     private ItemKillMapper itemKillMapper;
@@ -36,18 +36,18 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
     private ItemKillSuccessMapper itemKillSuccessMapper;
 
     @Override
-    public List<ItemKillInfo> findActiveItemKillList() {
+    public List<ItemKillInfoDto> findActiveItemKillList() {
         return itemKillMapper.getActiveItemKillList();
     }
 
     @Override
-    public ItemKillInfo findItemKillById(Long id) {
+    public ItemKillInfoDto findItemKillById(Long id) {
         return itemKillMapper.getItemKillById(id);
     }
 
     @Override
     public Boolean killItem(Long userId, Long itemId) {
-        ItemKillInfo itemKillInfo = findItemKillById(itemId);
+        ItemKillInfoDto itemKillInfo = findItemKillById(itemId);
         if (itemKillInfo == null){
             throw new ServiceException("不存在该秒杀商品");
         }
@@ -62,7 +62,7 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKill> i
             if (itemFlag != 1){
                 throw new ServiceException("秒杀失败");
             }
-            ItemKillSuccess itemKillSuccess = new ItemKillSuccess();
+            ItemKillSuccessEntity itemKillSuccess = new ItemKillSuccessEntity();
             itemKillSuccess.setKillId(itemKillInfo.getId());
             itemKillSuccess.setItemId(itemKillInfo.getItemId());
             itemKillSuccess.setStatus(KillStatusEnum.SUCCESS.getCode());
