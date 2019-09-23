@@ -13,10 +13,12 @@ import com.shoufeng.server.service.IItemKillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -40,6 +42,9 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
     @Autowired
     private ItemKillSuccessMapper itemKillSuccessMapper;
 
+    @Autowired
+    private ValueOperations<String, String> valueOperations;
+
     @Override
     public List<ItemKillInfoDto> findActiveItemKillList() {
         return itemKillMapper.getActiveItemKillList();
@@ -53,34 +58,47 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public Boolean killItem(Long userId, Long itemId) {
+
+        //redis实现分布式锁
+        String key = itemId + userId + "-RedisLock";;
+        Boolean flag = valueOperations.setIfAbsent(key, "", 30, TimeUnit.SECONDS);
+        if (flag == null || !flag) {
+            LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, "获取锁失败");
+            throw new ServiceException("秒杀失败");
+        }
+
         ItemKillInfoDto itemKillInfo = findItemKillById(itemId);
         if (itemKillInfo == null){
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, "不存在该秒杀商品");
             throw new ServiceException("不存在该秒杀商品");
         }
+
         Integer canKill = itemKillInfo.getCanKill();
         //标志位为1时可以秒杀
         if (canKill != 1) {
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, "该商品不可秒杀");
             throw new ServiceException("该商品不可秒杀");
         }
+
         //一个用户对于一个商品只可以秒杀一次
-        // TODO: 2019/9/23  在并发情况下仍可能导致一个商品被多个用户抢购
         Integer itemNum = itemKillSuccessMapper.countUserItemNum(userId, itemId);
         if (itemNum != 0) {
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, "秒杀失败,该用户已经抢购到该商品，不允许重复抢购");
             throw new ServiceException("秒杀失败,该用户已经抢购到该商品，不允许重复抢购");
         }
+
         Integer itemKillFlag = itemKillMapper.reduceItemKill(itemId);
         if (itemKillFlag != 1) {
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, "更新秒杀表（item_kill）库存失败");
             throw new ServiceException("秒杀失败");
         }
+
         Integer itemFlag = itemMapper.reduceItem(itemId);
         if (itemFlag != 1) {
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, "更新商品表（item）库存失败");
             throw new ServiceException("秒杀失败");
         }
+
         ItemKillSuccessEntity itemKillSuccess = new ItemKillSuccessEntity();
         itemKillSuccess.setKillId(itemKillInfo.getId());
         itemKillSuccess.setItemId(itemKillInfo.getItemId());
