@@ -24,7 +24,7 @@ public class RandomUtil {
      */
     public static String generateOrderCode() {
         //时间戳+N位随机数流水号
-        return DateFormatUtils.format(new Date(),"yyyyMMddHHmmssSS", Locale.CHINA) + generateNumber(4);
+        return DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSS", Locale.CHINA) + generateNumber(4);
     }
 
     //N位随机数流水号

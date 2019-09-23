@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author shoufeng
  */
-public class IItemKillSuccessServiceTest extends ServerApplicationTests{
+public class IItemKillSuccessServiceTest extends ServerApplicationTests {
 
     @Autowired
     private IItemKillSuccessService itemKillSuccessService;
 
     @Test
-    public void addTest(){
+    public void addTest() {
         ItemKillSuccess itemKillSuccess = new ItemKillSuccess();
         itemKillSuccess.setItemId(1);
         itemKillSuccess.setKillId(2);

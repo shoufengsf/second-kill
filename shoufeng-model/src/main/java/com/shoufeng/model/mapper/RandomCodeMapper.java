@@ -1,11 +1,11 @@
 package com.shoufeng.model.mapper;
 
-import com.shoufeng.model.entity.RandomCode;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.shoufeng.model.entity.RandomCode;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author shoufeng

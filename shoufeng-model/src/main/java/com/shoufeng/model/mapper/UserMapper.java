@@ -1,7 +1,7 @@
 package com.shoufeng.model.mapper;
 
-import com.shoufeng.model.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.shoufeng.model.entity.User;
 
 /**
  * <p>
