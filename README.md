@@ -3,8 +3,6 @@
 
 ### 流程图
 
-![秒杀业务流程图](./images/秒杀业务流程图.png)
-
 ![](https://github.com/shoufengsf/second-kill/blob/master/images/秒杀业务流程图.png)
 
 ## 主要难点
@@ -13,9 +11,7 @@
 
 收到秒杀请求----->>根据商品ID判断该商品是否是秒杀商品（商品表库存大于0，秒杀表库存大于0，当前时间在秒杀时间范围内）----->>根据用户ID和商品ID判断该用户是否抢购成功过该商品（同一个商品一个用户只允许抢购一个）------>>扣减秒杀表库存------>>扣减商品表库存------>>向秒杀成功表插入一条秒杀成功数据
 
-![](https://github.com/shoufengsf/second-kill/blob/master/images/%E5%88%A4%E6%96%AD%E8%83%BD%E5%90%A6%E7%A7%92%E6%9D%80.png)
-
-![判断能否秒杀](./images/判断能否秒杀.png)
+![判断能否秒杀](https://github.com/shoufengsf/second-kill/blob/master/images/判断能否秒杀.png)
 
 ### 存在的问题
 
@@ -23,23 +19,23 @@
 
 ##### 超卖情况
 
-![超卖前秒杀表库存](/Users/shoufeng/git-work/second-kill/images/超卖前秒杀表库存.png)
+![超卖前秒杀表库存](https://github.com/shoufengsf/second-kill/blob/master/images/超卖前秒杀表库存.png)
 
-![超卖前秒杀成功表](/Users/shoufeng/git-work/second-kill/images/超卖前秒杀成功表.png)
+![超卖前秒杀成功表](https://github.com/shoufengsf/second-kill/blob/master/images/超卖前秒杀成功表.png)
 
 
 
-![超卖前商品表库存](/Users/shoufeng/git-work/second-kill/images/超卖前商品表库存.png)
+![超卖前商品表库存](https://github.com/shoufengsf/second-kill/blob/master/images/超卖前商品表库存.png)
 
-![超卖秒杀开启线程数](/Users/shoufeng/git-work/second-kill/images/超卖秒杀开启线程数.png)
+![超卖秒杀开启线程数](https://github.com/shoufengsf/second-kill/blob/master/images/超卖秒杀开启线程数.png)
 
-![超卖请求](/Users/shoufeng/git-work/second-kill/images/超卖请求.png)
+![超卖请求](https://github.com/shoufengsf/second-kill/blob/master/images/超卖请求.png)
 
-![超卖后秒杀表](/Users/shoufeng/git-work/second-kill/images/超卖后秒杀表.png)
+![超卖后秒杀表](https://github.com/shoufengsf/second-kill/blob/master/images/超卖后秒杀表.png)
 
-![超卖后秒杀成功表](/Users/shoufeng/git-work/second-kill/images/超卖后秒杀成功表.png)
+![超卖后秒杀成功表](https://github.com/shoufengsf/second-kill/blob/master/images/超卖后秒杀成功表.png)
 
-![超卖后商品表](/Users/shoufeng/git-work/second-kill/images/超卖后商品表.png)
+![超卖后商品表](https://github.com/shoufengsf/second-kill/blob/master/images/超卖后商品表.png)
 
 ###### 多次秒杀和超卖解决方案（分布式锁）
 
@@ -48,7 +44,7 @@
 
 ##### 多次秒杀情况
 
-![同一用户同个商品多次秒杀](/Users/shoufeng/git-work/second-kill/images/同一用户同个商品多次秒杀.png)
+![同一用户同个商品多次秒杀](https://github.com/shoufengsf/second-kill/blob/master/images/同一用户同个商品多次秒杀.png)
 
 ###### 超卖解决方案（以下方案只能解决超卖，不能解决同个用户同个商品多次秒杀的问题）
 
@@ -67,3 +63,4 @@
 2. 使用rabbitmq，将耗时操作解耦（相当于异步操作，未执行完即可返回）。
 
 注意：编程式事务和rabbitmq解耦可以都用
+
