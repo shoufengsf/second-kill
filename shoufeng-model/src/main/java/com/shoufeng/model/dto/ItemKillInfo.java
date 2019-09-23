@@ -1,0 +1,35 @@
+package com.shoufeng.model.dto;
+
+import com.shoufeng.model.entity.ItemKill;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+/**
+ * @author shoufeng
+ */
+@Data
+public class ItemKillInfo extends ItemKill implements Serializable {
+
+    /**
+     * 商品名
+     */
+    private String name;
+
+    /**
+     * 商品编号
+     */
+    private String code;
+
+    /**
+     * 库存
+     */
+    private Long stock;
+
+    /**
+     * 采购时间
+     */
+    private LocalDate purchaseTime;
+
+}

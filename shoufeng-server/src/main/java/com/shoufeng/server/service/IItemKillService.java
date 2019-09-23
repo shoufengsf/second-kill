@@ -1,7 +1,10 @@
 package com.shoufeng.server.service;
 
+import com.shoufeng.model.dto.ItemKillInfo;
 import com.shoufeng.model.entity.ItemKill;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2019-09-21
  */
 public interface IItemKillService extends IService<ItemKill> {
-
+    public List<ItemKillInfo> findActiveItemKillList();
 }
