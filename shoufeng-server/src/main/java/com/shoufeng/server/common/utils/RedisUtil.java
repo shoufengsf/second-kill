@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @author shoufeng
  */
 @Component
-public class RedisUtils {
+public class RedisUtil {
 
     //过期时间一天
     public final static long DEFAULT_EXPIRE = 60 * 60 * 24;
@@ -28,7 +28,7 @@ public class RedisUtils {
     private final SetOperations<String, String> setOperations;
     private final ZSetOperations<String, String> zSetOperations;
 
-    public RedisUtils(RedisTemplate<String, Object> redisTemplate, ValueOperations<String, String> valueOperations, HashOperations<String, String, String> hashOperations, ListOperations<String, String> listOperations, SetOperations<String, String> setOperations, ZSetOperations<String, String> zSetOperations) {
+    public RedisUtil(RedisTemplate<String, Object> redisTemplate, ValueOperations<String, String> valueOperations, HashOperations<String, String, String> hashOperations, ListOperations<String, String> listOperations, SetOperations<String, String> setOperations, ZSetOperations<String, String> zSetOperations) {
         this.redisTemplate = redisTemplate;
         this.valueOperations = valueOperations;
         this.hashOperations = hashOperations;

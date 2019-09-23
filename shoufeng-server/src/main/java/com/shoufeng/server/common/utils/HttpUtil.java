@@ -16,12 +16,12 @@ import java.util.Map;
  * @author shoufeng
  */
 @Component
-public class HttpUtils {
+public class HttpUtil {
 
     private final RestTemplate restTemplate;
 
     @Autowired
-    public HttpUtils(RestTemplate restTemplate) {
+    public HttpUtil(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
