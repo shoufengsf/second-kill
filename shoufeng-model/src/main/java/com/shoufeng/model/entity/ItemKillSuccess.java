@@ -27,8 +27,9 @@ public class ItemKillSuccess implements Serializable {
     /**
      * 秒杀成功生成的订单编号
      */
-    @TableId(value = "id", type = IdType.NONE)
-    private String code;
+    //默认使用雪花算法ID
+    @TableId
+    private Long code;
 
     /**
      * 商品id
@@ -43,7 +44,7 @@ public class ItemKillSuccess implements Serializable {
     /**
      * 用户id
      */
-    private String userId;
+    private Integer userId;
 
     /**
      * 秒杀结果: -1无效  0成功(未付款)  1已付款  2已取消
