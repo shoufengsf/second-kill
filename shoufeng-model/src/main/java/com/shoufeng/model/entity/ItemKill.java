@@ -28,17 +28,17 @@ public class ItemKill implements Serializable {
      * 主键id
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 商品id
      */
-    private Integer itemId;
+    private Long itemId;
 
     /**
      * 可被秒杀的总数
      */
-    private Integer total;
+    private Long total;
 
     /**
      * 秒杀开始时间

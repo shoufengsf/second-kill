@@ -33,17 +33,17 @@ public class ItemKillSuccess implements Serializable {
     /**
      * 商品id
      */
-    private Integer itemId;
+    private Long itemId;
 
     /**
      * 秒杀id
      */
-    private Integer killId;
+    private Long killId;
 
     /**
      * 用户id
      */
-    private Integer userId;
+    private Long userId;
 
     /**
      * 秒杀结果: -1无效  0成功(未付款)  1已付款  2已取消

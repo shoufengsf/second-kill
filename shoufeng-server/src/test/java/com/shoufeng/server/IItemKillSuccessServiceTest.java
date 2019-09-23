@@ -17,9 +17,9 @@ public class IItemKillSuccessServiceTest extends ServerApplicationTests {
     @Test
     public void addTest() {
         ItemKillSuccess itemKillSuccess = new ItemKillSuccess();
-        itemKillSuccess.setItemId(1);
-        itemKillSuccess.setKillId(2);
-        itemKillSuccess.setUserId(3);
+        itemKillSuccess.setItemId(1L);
+        itemKillSuccess.setKillId(2L);
+        itemKillSuccess.setUserId(3L);
         itemKillSuccessService.save(itemKillSuccess);
         System.out.println(JSON.toJSONString(itemKillSuccess));
     }

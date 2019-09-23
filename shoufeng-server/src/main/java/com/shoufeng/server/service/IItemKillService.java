@@ -15,5 +15,7 @@ import java.util.List;
  * @since 2019-09-21
  */
 public interface IItemKillService extends IService<ItemKill> {
-    public List<ItemKillInfo> findActiveItemKillList();
+    List<ItemKillInfo> findActiveItemKillList();
+    ItemKillInfo findItemKillById(Long id);
+    Boolean killItem(Long userId, Long itemId);
 }

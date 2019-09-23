@@ -4,8 +4,10 @@ package com.shoufeng.server.controller;
 import com.shoufeng.model.dto.ItemKillInfo;
 import com.shoufeng.server.common.pojo.Result;
 import com.shoufeng.server.service.IItemKillService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,5 +37,11 @@ public class ItemKillController {
     public Result listKillGoods() {
         List<ItemKillInfo> itemKillInfoList = iItemKillService.findActiveItemKillList();
         return Result.ok(null, itemKillInfoList);
+    }
+
+    @PostMapping("/execute")
+    public Result executeKill(@Param("userId") Long userId, @Param("itemId") Long itemId) {
+        Boolean flag = iItemKillService.killItem(userId, itemId);
+        return flag ? Result.ok("秒杀成功",null) : Result.error("秒杀失败",null);
     }
 }

@@ -10,27 +10,34 @@ public enum KillStatusEnum {
     /**
      * 无效
      */
-    INVALID(-1),
+    INVALID(-1, "无效"),
     /**
      * 成功（未付款）
      */
-    SUCCESS(0),
+    SUCCESS(0, "成功（未付款）"),
     /**
      * 已付款
      */
-    PAYED(1),
+    PAYED(1, "已付款"),
     /**
      * 取消
      */
-    CANCEL(2);
+    CANCEL(2, "取消");
 
-    private Integer value;
+    private Integer code;
 
-    KillStatusEnum(Integer value) {
-        this.value = value;
+    private String message;
+
+    public Integer getCode() {
+        return code;
     }
 
-    public Integer getValue() {
-        return value;
+    public String getMessage() {
+        return message;
+    }
+
+    KillStatusEnum(Integer code, String message) {
+        this.code = code;
+        this.message = message;
     }
 }
