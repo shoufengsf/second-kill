@@ -23,11 +23,11 @@ public class RandomUtil {
      * @return
      */
     public static String generateOrderCode() {
-        //时间戳+N为随机数流水号
+        //时间戳+N位随机数流水号
         return DateFormatUtils.format(new Date(),"yyyyMMddHHmmssSS", Locale.CHINA) + generateNumber(4);
     }
 
-    //N为随机数流水号
+    //N位随机数流水号
     public static String generateNumber(final int num) {
         StringBuffer sb = new StringBuffer();
         for (int i = 1; i <= num; i++) {
