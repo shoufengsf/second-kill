@@ -32,4 +32,9 @@ public class ItemKillInfo extends ItemKill implements Serializable {
      */
     private LocalDate purchaseTime;
 
+    /**
+     * 能否被秒杀标志位 1: 可以
+     */
+    private Integer canKill;
+
 }

@@ -16,8 +16,13 @@ import java.util.List;
  * @since 2019-09-21
  */
 public interface ItemKillMapper extends BaseMapper<ItemKill> {
-    @Select("SELECT itemKill.*, item.`name`, item.`code`, item.stock, item.purchase_time " +
+    @Select("SELECT itemKill.*, item.`name`, item.`code`, item.stock, item.purchase_time, " +
+            "(CASE " +
+            "WHEN (NOW() BETWEEN itemKill.start_time AND itemKill.end_time AND itemKill.total > 0) " +
+            "THEN	1 " +
+            "ELSE	0 " +
+            "END) AS canKill " +
             "FROM item_kill AS itemKill LEFT JOIN item AS item ON itemKill.item_id = item.id " +
-            "WHERE item.is_active = 1 AND itemKill.is_active = 1")
+            "WHERE item.is_active = 1 AND itemKill.is_active = 1 AND item.stock > 0 ")
     public List<ItemKillInfo> getActiveItemKillList();
 }
