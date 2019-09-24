@@ -43,7 +43,8 @@ public class ItemKillController {
     public Result executeKill(@Param("userId") Long userId, @Param("itemId") Long itemId) {
 //        Boolean flag = iItemKillService.killItemBase(userId, itemId);
 //        Boolean flag = iItemKillService.killItemRedisLock(userId, itemId);
-        Boolean flag = iItemKillService.killItemRedissonLock(userId, itemId);
+//        Boolean flag = iItemKillService.killItemRedissonLock(userId, itemId);
+        Boolean flag = iItemKillService.killItemZKLock(userId, itemId);
         return flag ? Result.ok("秒杀成功", null) : Result.error("秒杀失败", null);
     }
 }

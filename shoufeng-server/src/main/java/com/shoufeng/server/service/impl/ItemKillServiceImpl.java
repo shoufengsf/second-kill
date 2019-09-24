@@ -11,6 +11,8 @@ import com.shoufeng.server.common.constant.KillStatusEnum;
 import com.shoufeng.server.common.exception.ServiceException;
 import com.shoufeng.server.common.utils.RedisUtil;
 import com.shoufeng.server.service.IItemKillService;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
@@ -53,6 +55,11 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
 
     @Autowired
     private RedissonClient redissonClient;
+
+    @Autowired
+    private CuratorFramework curatorFramework;
+
+    private final static String ZOOKEEPER_PATH_PREFIX = "second_kill/mylock/";
 
     @Override
     public List<ItemKillInfoDto> findActiveItemKillList() {
@@ -113,9 +120,31 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
         return false;
     }
 
+    /**
+     * zookeeper实现分布式锁
+     *
+     * @param userId
+     * @param itemId
+     * @return
+     */
     @Override
     public Boolean killItemZKLock(Long userId, Long itemId) {
         //zookeeper实现分布式锁
+        String lockKey = ZOOKEEPER_PATH_PREFIX + userId + itemId + "-lock";
+        InterProcessMutex mutex = new InterProcessMutex(curatorFramework, lockKey);
+        try {
+            mutex.acquire(10, TimeUnit.SECONDS);
+            return killItemBase(userId, itemId);
+        } catch (Exception e) {
+            LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, e.getLocalizedMessage());
+            LOGGER.error("秒杀失败: ", e);
+        } finally {
+            try {
+                mutex.release();
+            } catch (Exception e) {
+                LOGGER.error("释放" + lockKey + "锁失败: ", e);
+            }
+        }
         return null;
     }
 

@@ -51,3 +51,7 @@ mybatis-plus:
     cache-enabled: false
     call-setters-on-nulls: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+zookeeper:
+  host: 127.0.0.1:2181
+  namespace: second_kill
