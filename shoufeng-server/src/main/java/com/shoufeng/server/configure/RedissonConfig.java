@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * Redisson配置
+ *
  * @author shoufeng
  */
 @Configuration
