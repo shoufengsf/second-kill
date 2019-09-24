@@ -4,6 +4,7 @@ import com.shoufeng.message.service.MailService;
 import com.shoufeng.server.common.utils.FreeMarkerUtil;
 import com.shoufeng.server.service.SecondKillMailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class SecondKillMailServiceImpl implements SecondKillMailService {
     @Autowired
     private MailService mailService;
 
+    @Async
     @Override
     public void sendSecondKillSuccessMail(String toMailAddress, String username, String itemName) {
         Map<String, Object> map = new HashMap<>();
