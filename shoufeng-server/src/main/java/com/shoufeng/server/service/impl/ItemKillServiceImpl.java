@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shoufeng.model.dto.ItemKillInfoDto;
 import com.shoufeng.model.entity.ItemKillEntity;
 import com.shoufeng.model.entity.ItemKillSuccessEntity;
+import com.shoufeng.model.entity.UserEntity;
 import com.shoufeng.model.mapper.ItemKillMapper;
 import com.shoufeng.model.mapper.ItemKillSuccessMapper;
 import com.shoufeng.model.mapper.ItemMapper;
@@ -11,6 +12,8 @@ import com.shoufeng.server.common.constant.KillStatusEnum;
 import com.shoufeng.server.common.exception.ServiceException;
 import com.shoufeng.server.common.utils.RedisUtil;
 import com.shoufeng.server.service.IItemKillService;
+import com.shoufeng.server.service.IUserService;
+import com.shoufeng.server.service.SecondKillMailService;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.redisson.api.RLock;
@@ -52,6 +55,10 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
     private RedissonClient redissonClient;
     @Autowired
     private CuratorFramework curatorFramework;
+    @Autowired
+    private SecondKillMailService secondKillMailService;
+    @Autowired
+    private IUserService iUserService;
 
     @Override
     public List<ItemKillInfoDto> findActiveItemKillList() {
@@ -181,6 +188,10 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
         itemKillSuccess.setStatus(KillStatusEnum.SUCCESS.getCode());
         itemKillSuccess.setUserId(userId);
         itemKillSuccessMapper.insert(itemKillSuccess);
+
+        //秒杀成功后发送邮件
+        UserEntity userEntity = iUserService.getById(userId);
+        secondKillMailService.sendSecondKillSuccessMail(userEntity.getEmail(), userEntity.getUserName(), itemKillInfo.getName());
         return true;
     }
 }
