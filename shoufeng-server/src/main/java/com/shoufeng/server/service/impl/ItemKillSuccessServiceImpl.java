@@ -23,6 +23,6 @@ public class ItemKillSuccessServiceImpl extends ServiceImpl<ItemKillSuccessMappe
 
     @Override
     public Integer countUserItemNum(Long userId, Long itemId) {
-        return itemKillSuccessMapper.countUserItemNum(userId,itemId);
+        return itemKillSuccessMapper.countUserItemNum(userId, itemId);
     }
 }

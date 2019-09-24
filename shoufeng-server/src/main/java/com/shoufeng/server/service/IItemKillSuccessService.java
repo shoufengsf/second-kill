@@ -14,6 +14,7 @@ import com.shoufeng.model.entity.ItemKillSuccessEntity;
 public interface IItemKillSuccessService extends IService<ItemKillSuccessEntity> {
     /**
      * 查询某个用户抢到某个商品数量
+     *
      * @param userId 用户ID
      * @param itemId 商品ID
      * @return 抢到商品数量

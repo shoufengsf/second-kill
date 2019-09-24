@@ -28,16 +28,16 @@ public enum KillStatusEnum {
 
     private String message;
 
+    KillStatusEnum(Integer code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
     public Integer getCode() {
         return code;
     }
 
     public String getMessage() {
         return message;
-    }
-
-    KillStatusEnum(Integer code, String message) {
-        this.code = code;
-        this.message = message;
     }
 }

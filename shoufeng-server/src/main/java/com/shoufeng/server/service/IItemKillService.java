@@ -16,6 +16,14 @@ import java.util.List;
  */
 public interface IItemKillService extends IService<ItemKillEntity> {
     List<ItemKillInfoDto> findActiveItemKillList();
+
     ItemKillInfoDto findItemKillById(Long id);
-    Boolean killItem(Long userId, Long itemId);
+
+    Boolean killItemBase(Long userId, Long itemId);
+
+    Boolean killItemRedisLock(Long userId, Long itemId);
+
+    Boolean killItemRedissonLock(Long userId, Long itemId);
+
+    Boolean killItemZKLock(Long userId, Long itemId);
 }

@@ -9,7 +9,10 @@ import com.shoufeng.model.mapper.ItemKillSuccessMapper;
 import com.shoufeng.model.mapper.ItemMapper;
 import com.shoufeng.server.common.constant.KillStatusEnum;
 import com.shoufeng.server.common.exception.ServiceException;
+import com.shoufeng.server.common.utils.RedisUtil;
 import com.shoufeng.server.service.IItemKillService;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,12 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
     @Autowired
     private ValueOperations<String, String> valueOperations;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private RedissonClient redissonClient;
+
     @Override
     public List<ItemKillInfoDto> findActiveItemKillList() {
         return itemKillMapper.getActiveItemKillList();
@@ -55,20 +64,66 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
         return itemKillMapper.getItemKillById(id);
     }
 
+    /**
+     * redis实现分布式锁实现一：利用valueOperations
+     *
+     * @param userId
+     * @param itemId
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public Boolean killItem(Long userId, Long itemId) {
-
-        //redis实现分布式锁
-        String key = itemId + userId + "-RedisLock";;
-        Boolean flag = valueOperations.setIfAbsent(key, "", 30, TimeUnit.SECONDS);
+    public Boolean killItemRedisLock(Long userId, Long itemId) {
+        Boolean isSuccess = false;
+        String key = itemId + userId + "-RedisLock";
+        Boolean flag = valueOperations.setIfAbsent(key, "", 300, TimeUnit.SECONDS);
+        //该判断代码块不能进入try代码块，因为会导致获取锁失败后，将锁删除
         if (flag == null || !flag) {
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, "获取锁失败");
             throw new ServiceException("秒杀失败");
         }
+        try {
+            isSuccess = killItemBase(userId, itemId);
+        } finally {
+            redisUtil.delete(key);
+        }
+        return isSuccess;
+    }
+
+    /**
+     * redis实现分布式锁实现二：利用redisson
+     *
+     * @param userId
+     * @param itemId
+     * @return
+     */
+    @Override
+    public Boolean killItemRedissonLock(Long userId, Long itemId) {
+        String key = itemId + userId + "-RedisLock";
+        RLock fairLock = redissonClient.getFairLock(key);
+        try {
+            fairLock.tryLock(10, TimeUnit.SECONDS);
+            return killItemBase(userId, itemId);
+        } catch (InterruptedException e) {
+            LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, e.getLocalizedMessage());
+            LOGGER.error("秒杀失败: ", e);
+        } finally {
+            fairLock.unlock();
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean killItemZKLock(Long userId, Long itemId) {
+        //zookeeper实现分布式锁
+        return null;
+    }
+
+    @Override
+    public Boolean killItemBase(Long userId, Long itemId) {
 
         ItemKillInfoDto itemKillInfo = findItemKillById(itemId);
-        if (itemKillInfo == null){
+        if (itemKillInfo == null) {
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, "不存在该秒杀商品");
             throw new ServiceException("不存在该秒杀商品");
         }
