@@ -37,29 +37,21 @@ import java.util.concurrent.TimeUnit;
 public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEntity> implements IItemKillService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ItemKillServiceImpl.class);
-
+    private final static String ZOOKEEPER_PATH_PREFIX = "second_kill/mylock/";
     @Autowired
     private ItemKillMapper itemKillMapper;
-
     @Autowired
     private ItemMapper itemMapper;
-
     @Autowired
     private ItemKillSuccessMapper itemKillSuccessMapper;
-
     @Autowired
     private ValueOperations<String, String> valueOperations;
-
     @Autowired
     private RedisUtil redisUtil;
-
     @Autowired
     private RedissonClient redissonClient;
-
     @Autowired
     private CuratorFramework curatorFramework;
-
-    private final static String ZOOKEEPER_PATH_PREFIX = "second_kill/mylock/";
 
     @Override
     public List<ItemKillInfoDto> findActiveItemKillList() {
