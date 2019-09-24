@@ -2,6 +2,7 @@ package com.shoufeng.model.dto;
 
 import com.shoufeng.model.entity.ItemKillEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
  * @author shoufeng
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class ItemKillInfoDto extends ItemKillEntity implements Serializable {
 
     /**

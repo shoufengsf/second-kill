@@ -26,4 +26,5 @@ public interface MailService {
      * @param file          附件
      */
     void sendMail(String toMailAddress, String subject, String text, String fileName, File file);
+
 }

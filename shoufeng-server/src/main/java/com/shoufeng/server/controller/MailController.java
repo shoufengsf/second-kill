@@ -1,7 +1,7 @@
 package com.shoufeng.server.controller;
 
 
-import com.shoufeng.message.service.MailService;
+import com.shoufeng.server.service.SecondKillMailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MailController {
 
     @Autowired
-    private MailService mailService;
+    private SecondKillMailService secondKillMailService;
 
     @RequestMapping("/test")
     public void test() {
-        mailService.sendSimpleMail();
+        secondKillMailService.sendSecondKillSuccessMail("915855132@qq.com", "守风", "李敖大全集");
     }
 
 }
