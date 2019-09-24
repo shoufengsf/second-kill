@@ -19,6 +19,20 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
+  #邮件配置
+  mail:
+    host: smtp.qq.com
+    username: 915855132@qq.com
+    #授权码
+    password:
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 
 #mybatis
@@ -52,6 +66,7 @@ mybatis-plus:
     call-setters-on-nulls: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+#zookeeper
 zookeeper:
   host: 127.0.0.1:2181
   namespace: second_kill
