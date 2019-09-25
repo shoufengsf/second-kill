@@ -5,13 +5,9 @@ import com.shoufeng.server.common.pojo.Result;
 import com.shoufeng.server.common.utils.JWTUtil;
 import com.shoufeng.server.service.IUserService;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
