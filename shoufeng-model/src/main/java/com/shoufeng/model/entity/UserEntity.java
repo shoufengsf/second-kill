@@ -55,6 +55,16 @@ public class UserEntity implements Serializable {
     private Integer isActive;
 
     /**
+     * 角色
+     */
+    private String role;
+
+    /**
+     * 权限
+     */
+    private String permission;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;
