@@ -44,36 +44,19 @@ public class UserController {
             String passwordMd5 = DigestUtils.md5Hex(password);
             String sign = jwtUtil.sign(username, passwordMd5);
             httpServletResponse.setHeader(header, sign);
-            return Result.ok("登陆成功", null);
+            return Result.ok("登陆成功", sign);
         } else {
             return Result.error("账号密码错误", null);
         }
     }
 
     @RequestMapping("/register")
+    @RequiresRoles(value = {"admin"})
     public Result registerUser(String username, String password, String phone, String email) {
         if (iUserService.registerUser(username, password, phone, email)) {
             return Result.ok("注册成功", null);
         } else {
             return Result.error("注册失败", null);
         }
-    }
-
-    @GetMapping("/require_auth")
-    @RequiresAuthentication
-    public Result requireAuth() {
-        return Result.ok("You are authenticated", null);
-    }
-
-    @GetMapping("/require_role")
-    @RequiresRoles("normal11")
-    public Result requireRole() {
-        return Result.ok("You are normal", null);
-    }
-
-    @GetMapping("/require_permission")
-    @RequiresPermissions(logical = Logical.AND, value = {"permission1", "permission777"})
-    public Result requirePermission() {
-        return Result.ok("You are visiting permission require permission1,permission2", null);
     }
 }
