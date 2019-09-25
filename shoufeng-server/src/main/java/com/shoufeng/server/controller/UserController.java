@@ -66,13 +66,13 @@ public class UserController {
     }
 
     @GetMapping("/require_role")
-    @RequiresRoles("normal")
+    @RequiresRoles("normal11")
     public Result requireRole() {
         return Result.ok("You are normal", null);
     }
 
     @GetMapping("/require_permission")
-    @RequiresPermissions(logical = Logical.AND, value = {"permission1", "permission3"})
+    @RequiresPermissions(logical = Logical.AND, value = {"permission1", "permission777"})
     public Result requirePermission() {
         return Result.ok("You are visiting permission require permission1,permission2", null);
     }
