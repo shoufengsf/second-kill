@@ -1,6 +1,7 @@
 package com.shoufeng.server.service.impl;
 
 import com.shoufeng.model.dto.ItemKillInfoDto;
+import com.shoufeng.model.dto.ItemKillSuccessInfoDto;
 import com.shoufeng.model.mapper.ItemKillSuccessMapper;
 import com.shoufeng.server.service.RabbitSenderService;
 import org.springframework.amqp.AmqpException;
@@ -29,16 +30,16 @@ public class RabbitSenderServiceImpl implements RabbitSenderService {
 
     @Override
     public void sendKillSuccessEmailMsg(String orderNo) {
-        ItemKillInfoDto itemKillInfoDto = itemKillSuccessMapper.selectItemKillInfoByCode(orderNo);
+        ItemKillSuccessInfoDto itemKillSuccessInfoDto = itemKillSuccessMapper.selectItemKillInfoByCode(orderNo);
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         rabbitTemplate.setExchange("mq.kill.item.success.email.exchange");
         rabbitTemplate.setRoutingKey("mq.kill.item.success.email.routing.key");
-        rabbitTemplate.convertAndSend(itemKillInfoDto, new MessagePostProcessor() {
+        rabbitTemplate.convertAndSend(itemKillSuccessInfoDto, new MessagePostProcessor() {
             @Override
             public Message postProcessMessage(Message message) throws AmqpException {
                 MessageProperties messageProperties = message.getMessageProperties();
                 messageProperties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-                messageProperties.setHeader(AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, ItemKillInfoDto.class);
+                messageProperties.setHeader(AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME, ItemKillSuccessInfoDto.class);
                 return message;
             }
         });
