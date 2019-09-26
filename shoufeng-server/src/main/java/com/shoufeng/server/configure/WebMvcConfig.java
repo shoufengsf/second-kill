@@ -5,8 +5,6 @@ import com.shoufeng.server.common.exception.ServiceException;
 import com.shoufeng.server.common.pojo.Result;
 import com.shoufeng.server.common.pojo.ResultCode;
 import com.shoufeng.server.common.utils.ResponseUtil;
-//import org.apache.shiro.authz.UnauthenticatedException;
-//import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +16,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletException;
 import java.util.List;
+
+//import org.apache.shiro.authz.UnauthenticatedException;
+//import org.apache.shiro.authz.UnauthorizedException;
 
 /**
  * mvc配置
