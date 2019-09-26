@@ -37,6 +37,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
         resolvers.add((request, response, handler, e) -> {
+            // TODO: 2019/9/26 有些异常可能不需要打印日志，比如自定义的服务异常，针对不同异常可能需要不同的日志级别划分，不然看起来有点乱
             Result result;
             LOGGER.error("服务异常: ", e);
             if (e instanceof ServiceException) {
