@@ -4,16 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shoufeng.model.dto.ItemKillInfoDto;
 import com.shoufeng.model.entity.ItemKillEntity;
 import com.shoufeng.model.entity.ItemKillSuccessEntity;
-import com.shoufeng.model.entity.UserEntity;
 import com.shoufeng.model.mapper.ItemKillMapper;
 import com.shoufeng.model.mapper.ItemKillSuccessMapper;
 import com.shoufeng.model.mapper.ItemMapper;
 import com.shoufeng.server.common.constant.KillStatusEnum;
 import com.shoufeng.server.common.exception.ServiceException;
 import com.shoufeng.server.common.utils.RedisUtil;
-import com.shoufeng.server.service.IItemKillService;
-import com.shoufeng.server.service.IUserService;
-import com.shoufeng.server.service.SecondKillMailService;
+import com.shoufeng.server.service.*;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.redisson.api.RLock;
@@ -40,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEntity> implements IItemKillService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ItemKillServiceImpl.class);
-    private final static String ZOOKEEPER_PATH_PREFIX = "second_kill/mylock/";
+    private final static String ZOOKEEPER_PATH_PREFIX = "/second_kill/mylock/";
     @Autowired
     private ItemKillMapper itemKillMapper;
     @Autowired
@@ -59,6 +56,10 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
     private SecondKillMailService secondKillMailService;
     @Autowired
     private IUserService iUserService;
+    @Autowired
+    private RabbitSenderService rabbitSenderService;
+    @Autowired
+    private IItemKillSuccessService iItemKillSuccessService;
 
     @Override
     public List<ItemKillInfoDto> findActiveItemKillList() {
@@ -139,7 +140,9 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
             LOGGER.error("秒杀失败: ", e);
         } finally {
             try {
-                mutex.release();
+                if (mutex.isAcquiredInThisProcess()) {
+                    mutex.release();
+                }
             } catch (Exception e) {
                 LOGGER.error("释放" + lockKey + "锁失败: ", e);
             }
@@ -190,8 +193,9 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
         itemKillSuccessMapper.insert(itemKillSuccess);
 
         //秒杀成功后发送邮件
-        UserEntity userEntity = iUserService.getById(userId);
-        secondKillMailService.sendSecondKillSuccessMail(userEntity.getEmail(), userEntity.getUserName(), itemKillInfo.getName());
+//        UserEntity userEntity = iUserService.getById(userId);
+//        secondKillMailService.sendSecondKillSuccessMail(userEntity.getEmail(), userEntity.getUserName(), itemKillInfo.getName());
+        rabbitSenderService.sendKillSuccessEmailMsg(itemKillSuccess.getCode().toString());
         return true;
     }
 }

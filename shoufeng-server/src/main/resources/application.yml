@@ -33,6 +33,13 @@ spring:
           starttls:
             enable: true
             required: true
+  #rabbitmq配置
+  rabbitmq:
+    virtual-host: /second_kill
+    host: 127.0.0.1
+    port: 5672
+    username: second_kill_user
+    password: 123456
 
 
 #mybatis
@@ -79,3 +86,5 @@ jwt:
   salt: A0B1C2D3E4F5G6H7I8J9KALBMCNDOEPFQ0R1S2T3U4V5W6X7Y8Z9
   #token过期时间，单位秒
   expire: 3000
+
+

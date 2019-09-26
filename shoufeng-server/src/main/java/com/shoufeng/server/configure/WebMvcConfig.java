@@ -5,8 +5,8 @@ import com.shoufeng.server.common.exception.ServiceException;
 import com.shoufeng.server.common.pojo.Result;
 import com.shoufeng.server.common.pojo.ResultCode;
 import com.shoufeng.server.common.utils.ResponseUtil;
-import org.apache.shiro.authz.UnauthenticatedException;
-import org.apache.shiro.authz.UnauthorizedException;
+//import org.apache.shiro.authz.UnauthenticatedException;
+//import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -48,9 +48,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 result = Result.builder().code(ResultCode.FAIL.code()).message(e.getMessage()).build();
             } else if (e instanceof TokenExpiredException) {
                 result = Result.builder().code(ResultCode.FAIL.code()).message(e.getMessage()).build();
-            } else if (e instanceof UnauthenticatedException) {
-                result = Result.builder().code(ResultCode.FAIL.code()).message(e.getMessage()).build();
-            } else if (e instanceof UnauthorizedException) {
+//            } else if (e instanceof UnauthenticatedException) {
+//                result = Result.builder().code(ResultCode.FAIL.code()).message(e.getMessage()).build();
+//            } else if (e instanceof UnauthorizedException) {
                 result = Result.builder().code(ResultCode.FAIL.code()).message(e.getMessage()).build();
             } else {
                 result = Result.builder().code(ResultCode.INTERNAL_SERVER_ERROR.code()).message("接口 [" + request.getRequestURI() + "] 内部错误，请联系管理员").build();
