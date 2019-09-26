@@ -45,8 +45,27 @@ public class RabbitSenderServiceImpl implements RabbitSenderService {
         });
     }
 
+    // TODO: 2019/9/26 要结合实际需求
     @Override
     public void sendKillSuccessOrderExpireMsg(String orderCode) {
+        //基本交换机+基本路由-->>死信队列
+//        rabbitTemplate.convertAndSend("mq.kill.item.success.base.exchange","mq.kill.item.success.base.routing.key","死信消息测试");
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setExchange("mq.kill.item.success.base.exchange");
+        rabbitTemplate.setRoutingKey("mq.kill.item.success.base.routing.key");
+        ItemKillSuccessInfoDto itemKillSuccessInfoDto = itemKillSuccessMapper.selectItemKillInfoByCode(orderCode);
+        itemKillSuccessInfoDto.setUserName("死信队列测试");
+        rabbitTemplate.convertAndSend(itemKillSuccessInfoDto, new MessagePostProcessor() {
+            @Override
+            public Message postProcessMessage(Message message) throws AmqpException {
+                MessageProperties mp=message.getMessageProperties();
+                mp.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                mp.setHeader(AbstractJavaTypeMapper.DEFAULT_CONTENT_CLASSID_FIELD_NAME,ItemKillSuccessInfoDto.class);
 
+                //TODO：动态设置TTL(为了测试方便，暂且设置10s)
+                mp.setExpiration("10000");
+                return message;
+            }
+        });
     }
 }

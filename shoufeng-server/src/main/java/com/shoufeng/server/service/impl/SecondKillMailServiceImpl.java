@@ -42,4 +42,21 @@ public class SecondKillMailServiceImpl implements SecondKillMailService {
         sendSecondKillSuccessMail(itemKillSuccessInfoDto.getEmail(), itemKillSuccessInfoDto.getUserName(), itemKillSuccessInfoDto.getItemName());
         System.out.println(JSON.toJSONString(itemKillSuccessInfoDto));
     }
+
+    //真正队列消费
+    @RabbitListener(queues = {"mq.kill.item.success.kill.dead.real.queue"}, containerFactory = "multiListenerContainer")
+    @Override
+    public void realQueueCustomer(ItemKillSuccessInfoDto itemKillSuccessInfoDto){
+        System.out.println("=============成功消费超时消息=============");
+        System.out.println(JSON.toJSONString(itemKillSuccessInfoDto));
+    }
+
+    //直接消费死信队列消息
+//    @RabbitListener(queues = {"mq.kill.item.success.kill.dead.queue"}, containerFactory = "multiListenerContainer")
+    @Override
+    public void deadQueueCustomer(ItemKillSuccessInfoDto itemKillSuccessInfoDto){
+        System.out.println("=============直接消费死信队列消息=============");
+        System.out.println(JSON.toJSONString(itemKillSuccessInfoDto));
+    }
+
 }

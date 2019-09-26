@@ -196,6 +196,7 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
 //        UserEntity userEntity = iUserService.getById(userId);
 //        secondKillMailService.sendSecondKillSuccessMail(userEntity.getEmail(), userEntity.getUserName(), itemKillInfo.getName());
         rabbitSenderService.sendKillSuccessEmailMsg(itemKillSuccess.getCode().toString());
+        rabbitSenderService.sendKillSuccessOrderExpireMsg(itemKillSuccess.getCode().toString());
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package com.shoufeng.server.configure;
 
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Map;
 
 /**
  * 通用化 Rabbitmq 配置
@@ -101,6 +104,44 @@ public class RabbitmqConfig {
         return BindingBuilder.bind(successEmailQueue()).to(successEmailExchange()).with("mq.kill.item.success.email.routing.key");
     }
 
+    //死信队列
+    @Bean
+    public Queue successKillDeadQueue() {
+        Map<String, Object> argsMap = Maps.newHashMap();
+        argsMap.put("x-dead-letter-exchange", "mq.kill.item.success.kill.dead.exchange");
+        argsMap.put("x-dead-letter-routing-key", "mq.kill.item.success.kill.dead.routing.key");
+        return new Queue("mq.kill.item.success.kill.dead.queue", true, false, false, argsMap);
+    }
+
+    //基本交换机
+    @Bean
+    public TopicExchange successKillDeadbaseExchange() {
+        return new TopicExchange("mq.kill.item.success.base.exchange", true, false);
+    }
+
+    //绑定：基本交换机+基本路由+死信队列
+    @Bean
+    public Binding successKillDeadBaseBinding(){
+        return BindingBuilder.bind(successKillDeadQueue()).to(successKillDeadbaseExchange()).with("mq.kill.item.success.base.routing.key");
+    }
+
+    //死信交换机
+    @Bean
+    public TopicExchange successKillDeadExchange(){
+        return new TopicExchange("mq.kill.item.success.kill.dead.exchange",true,false);
+    }
+
+    //真正队列
+    @Bean
+    public Queue successKillDeadRealQueue(){
+        return new Queue("mq.kill.item.success.kill.dead.real.queue",true);
+    }
+
+    //绑定：死信交换机+死信路由+真正队列
+    @Bean
+    public Binding successKillDeadRealBinding(){
+        return BindingBuilder.bind(successKillDeadRealQueue()).to(successKillDeadExchange()).with("mq.kill.item.success.kill.dead.routing.key");
+    }
 }
 
 

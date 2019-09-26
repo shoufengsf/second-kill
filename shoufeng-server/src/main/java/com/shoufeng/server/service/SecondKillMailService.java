@@ -22,4 +22,8 @@ public interface SecondKillMailService {
      * @param itemKillSuccessInfoDto 秒杀成功相关信息
      */
     void sendSecondKillSuccessMail(ItemKillSuccessInfoDto itemKillSuccessInfoDto);
+
+    void realQueueCustomer(ItemKillSuccessInfoDto itemKillSuccessInfoDto);
+
+    void deadQueueCustomer(ItemKillSuccessInfoDto itemKillSuccessInfoDto);
 }
