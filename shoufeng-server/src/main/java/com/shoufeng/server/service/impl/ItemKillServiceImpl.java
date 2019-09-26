@@ -113,7 +113,7 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
             return killItemBase(userId, itemId);
         } catch (InterruptedException e) {
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, e.getLocalizedMessage());
-            LOGGER.error("秒杀失败: ", e);
+//            LOGGER.error("秒杀失败: ", e);
         } finally {
             fairLock.unlock();
         }
@@ -137,7 +137,7 @@ public class ItemKillServiceImpl extends ServiceImpl<ItemKillMapper, ItemKillEnt
             return killItemBase(userId, itemId);
         } catch (Exception e) {
             LOGGER.info("秒杀失败: userId({}), itemId({}), message({})", userId, itemId, e.getLocalizedMessage());
-            LOGGER.error("秒杀失败: ", e);
+//            LOGGER.error("秒杀失败: ", e);
         } finally {
             try {
                 if (mutex.isAcquiredInThisProcess()) {
