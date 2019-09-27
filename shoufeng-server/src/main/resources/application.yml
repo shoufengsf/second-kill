@@ -88,3 +88,5 @@ jwt:
   expire: 3000
 
 
+logging:
+  path: ./

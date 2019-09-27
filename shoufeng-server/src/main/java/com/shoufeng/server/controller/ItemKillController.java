@@ -4,12 +4,10 @@ package com.shoufeng.server.controller;
 import com.shoufeng.model.dto.ItemKillInfoDto;
 import com.shoufeng.server.common.pojo.Result;
 import com.shoufeng.server.service.IItemKillService;
+import lombok.Data;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,12 +43,18 @@ public class ItemKillController {
 
     @PostMapping("/execute")
 //    @RequiresPermissions(value = {"kill"})
-    public Result executeKill(@Param("userId") Long userId, @Param("itemId") Long itemId) {
+    public Result executeKill(@RequestBody KillInfo killInfo) {
 //        Boolean flag = iItemKillService.killItemBase(userId, itemId);
-//        Boolean flag = iItemKillService.killItemRedisLock(userId, itemId);
-//        Boolean flag = iItemKillService.killItemRedissonLock(userId, itemId);
-        Boolean flag = iItemKillService.killItemZKLock(userId, itemId);
+//        Boolean flag = iItemKillService.killItemRedisLock(killInfo.getUserId(), killInfo.getItemId());
+        Boolean flag = iItemKillService.killItemRedissonLock(killInfo.getUserId(), killInfo.getItemId());
+//        Boolean flag = iItemKillService.killItemZKLock(killInfo.getUserId(), killInfo.getItemId());
         flag = flag == null ? false : flag;
         return flag ? Result.ok("秒杀成功", null) : Result.error("秒杀失败", null);
     }
+}
+
+@Data
+class KillInfo {
+    Long userId;
+    Long itemId;
 }
